@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' 'unsafe-eval' data: blob:;">
+    <title>Electronic Personhood - Abstract Data Visualization</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400&display=swap" rel="stylesheet" />
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --pink: #ff007f;
+            --green: #32cd32;
+            --cyan: #00ffff;
+            --yellow: #ffff00;
+        }
+
+        body {
+            font-family: 'Roboto Mono', monospace;
+            background: #ffffff;
+            overflow: hidden;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        .label-text {
+            font-size: 0.6rem;
+            letter-spacing: 0.07em;
+            text-transform: uppercase;
+            color: #1a1a1a;
+            white-space: nowrap;
+            user-select: none;
+            pointer-events: none;
+        }
+
+        /* ── Header / Footer ───────────────────────────── */
+        header,
+        footer {
+            position: fixed;
+            left: 0;
+            width: 100%;
+            padding: 2rem;
+            z-index: 20;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            pointer-events: none;
+        }
+
+        header a,
+        footer a {
+            pointer-events: all;
+        }
+
+        header {
+            top: 0;
+            align-items: flex-start;
+        }
+
+        footer {
+            bottom: 0;
+            align-items: flex-end;
+        }
+
+        h1 {
+            font-size: 1.15rem;
+            font-weight: 300;
+            letter-spacing: -0.04em;
+        }
+
+        /* ── Shapes ─────────────────────────────────────── */
+        .shape {
+            position: absolute;
+            cursor: default;
+            will-change: transform;
+        }
+
+        /* Filled shape (agent assigned) */
+        .shape.filled {
+            cursor: pointer;
+            animation: pulse 2.4s ease-in-out infinite;
+        }
+
+        .shape.filled.paused {
+            animation-play-state: paused;
+            cursor: pointer;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.20);
+            }
+        }
+
+        /* ── Audio unlock screen ────────────────── */
+        #audio-unlock {
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            background: transparent;
+        }
+
+        #audio-unlock-hint {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.55rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: #1a1a1a;
+            border: 1px solid #1a1a1a;
+            padding: 0.5rem 1.2rem;
+            opacity: 0.5;
+            animation: blink-hint 2s ease-in-out infinite;
+        }
+
+        @keyframes blink-hint {
+
+            0%,
+            100% {
+                opacity: 0.3;
+            }
+
+            50% {
+                opacity: 0.7;
+            }
+        }
+
+        /* All shapes stop when hovered-state is active */
+        body.freeze .shape {
+            transition: none;
+        }
+
+        /* ── Modal ──────────────────────────────── */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.3);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-overlay.open {
+            display: flex;
+        }
+
+        .modal-window {
+            background: #ffffff;
+            border: 1px solid #d0d0d0;
+            font-family: 'Roboto Mono', monospace;
+            z-index: 101;
+            width: 340px;
+            /* transform makes this a containing block for fixed descendants */
+            transform: translate(0, 0);
+            will-change: transform;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.9rem 1.2rem;
+            border-bottom: 1px solid #e8e8e8;
+        }
+
+        .modal-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 0.15rem;
+        }
+
+        .modal-name {
+            font-size: 0.65rem;
+            letter-spacing: 0.06em;
+            color: #1a1a1a;
+        }
+
+        .modal-date {
+            font-size: 0.5rem;
+            letter-spacing: 0.06em;
+            color: #999;
+        }
+
+        .modal-close-btn {
+            background: none;
+            border: 1px solid #d0d0d0;
+            color: #1a1a1a;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.5rem;
+            letter-spacing: 0.1em;
+            padding: 0.3rem 0.8rem;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        .modal-close-btn:hover {
+            background: #f5f5f5;
+        }
+
+        .widget-container {
+            width: 340px;
+            min-height: 460px;
+            display: block;
+        }
+    </style>
+    <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header>
+        <div>
+            <h1>전자인격 / ELECTRONIC PERSONHOOD</h1>
+            <p class="label-text" style="opacity:0.5">the ethics of digital beings</p>
+        </div>
+        <div style="text-align:right">
+            <p class="label-text"><a href="https://www.instagram.com/koreafoundation/" target="_blank"
+                    style="color:inherit;text-decoration:none;">Facing Faces, KF XR gallery</a></p>
+            <p class="label-text" style="opacity:0.5">03.31.2026~07.31.2026</p>
+        </div>
+    </header>
+
+    <!-- Canvas -->
+    <main id="viz-container" style="position:relative;width:100vw;height:100vh;overflow:hidden;"></main>
+
+    <!-- Footer -->
+    <footer>
+        <div>
+            <p class="label-text">© 2026 ELECTRONIC PERSONHOOD PROJECT</p>
+            <p class="label-text" style="opacity:0.5"><a href="https://seyminworks.github.io/me_myVself/"
+                    target="_blank" style="color:inherit;text-decoration:none;">2nd phase of 'Generated Selves'</a></p>
+        </div>
+        <div style="text-align:right">
+            <p class="label-text"><a href="https://linktr.ee/seymin" target="_blank"
+                    style="color:inherit;text-decoration:none;">Artist Sey Min</a></p>
+        </div>
+    </footer>
+
+    <!-- Audio unlock overlay -->
+    <div id="audio-unlock">
+        <span id="audio-unlock-hint">click anywhere to begin</span>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="modal-window">
+            <div class="modal-header">
+                <div class="modal-meta">
+                    <span class="modal-name">KF being</span>
+                    <span class="modal-date">2026-03-31</span>
+                </div>
+                <button class="modal-close-btn" id="modal-close">✕ close</button>
+            </div>
+            <div class="widget-container">
+                <elevenlabs-convai agent-id="agent_3101kjq6p68aexcaw96a1zkrxsbf"></elevenlabs-convai>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ─────────────────────────────────────────────────
+        // SHAPE DEFINITIONS
+        // ─────────────────────────────────────────────────
+        const SHAPES_DEF = [
+            { id: 'NODE_01', w: 48, h: 192, color: '#ff007f', filled: false, label: 'name / 0000-00-00', labelPos: 'top-left' },
+            { id: 'VECTOR_B', w: 256, h: 32, color: '#00ffff', filled: false, label: 'name / 0000-00-00', labelPos: 'bottom-right' },
+            { id: 'ID_9928', w: 96, h: 96, color: '#ffff00', filled: false, label: 'name / 0000-00-00', labelPos: 'left-rotated' },
+            { id: 'STRUC_04', w: 16, h: 128, color: '#32cd32', filled: false, label: 'name / 0000-00-00', labelPos: 'top-right' },
+            { id: 'LATENCY_CORE', w: 320, h: 64, color: '#ff007f', filled: false, label: 'name / 0000-00-00', labelPos: 'top-left' },
+            { id: 'NODE_06', w: 64, h: 48, color: '#00ffff', filled: false, label: 'name / 0000-00-00', labelPos: 'bottom-left' },
+            { id: 'UPTIME_REF', w: 24, h: 256, color: '#32cd32', filled: false, label: 'name / 0000-00-00', labelPos: 'bottom-right' },
+            { id: 'MAPPING_X', w: 80, h: 160, color: '#ffff00', filled: false, label: 'name / 0000-00-00', labelPos: 'top-right' },
+            { id: 'SYNC_PULSE', w: 160, h: 16, color: '#ff007f', filled: false, label: 'name / 0000-00-00', labelPos: 'top-left' },
+            { id: 'BOUND_BOX_10', w: 128, h: 128, color: '#00ffff', filled: false, label: 'name / 0000-00-00', labelPos: 'top-left' },
+            { id: 'NODE_11', w: 48, h: 48, color: '#32cd32', filled: false, label: 'name / 0000-00-00', labelPos: 'bottom-left' },
+            { id: 'STREAM_END', w: 224, h: 8, color: '#ffff00', filled: false, label: 'name / 0000-00-00', labelPos: 'top-right' },
+            { id: 'COORD_13', w: 8, h: 96, color: '#ff007f', filled: false, label: 'name / 0000-00-00', labelPos: 'top-right' },
+            { id: 'ENTITY_DENSITY', w: 56, h: 224, color: '#00ffff', filled: true, label: 'KF being', labelPos: 'bottom-left' }, // ← AGENT
+            { id: 'BIT_RATE', w: 80, h: 80, color: '#32cd32', filled: false, label: 'name / 0000-00-00', labelPos: 'bottom-right' },
+            { id: 'REF_VAL', w: 128, h: 48, color: '#ffff00', filled: false, label: 'name / 0000-00-00', labelPos: 'left-rotated' },
+            { id: 'LINKAGE_PRIME', w: 128, h: 4, color: '#00ffff', filled: false, label: 'name / 0000-00-00', labelPos: 'top-left' },
+        ];
+
+        // ─────────────────────────────────────────────────
+        // PHYSICS STATE
+        // ─────────────────────────────────────────────────
+        const MARGIN = 80;  // stay away from header/footer
+        const SPEED = 0.6; // base px/frame
+        const objects = [];
+        let frozen = false;
+        let rafId = null;
+
+        function randBetween(a, b) { return a + Math.random() * (b - a); }
+
+        function initObjects() {
+            const W = window.innerWidth;
+            const H = window.innerHeight;
+
+            SHAPES_DEF.forEach((def, i) => {
+                // random starting position avoiding edges
+                let x, y, tries = 0;
+                do {
+                    x = randBetween(20, W - def.w - 20);
+                    y = randBetween(MARGIN, H - def.h - MARGIN);
+                    tries++;
+                } while (tries < 50 && objects.some(o => rectsOverlap(x, y, def.w, def.h, o.x, o.y, o.w, o.h, 8)));
+
+                // random angle
+                const angle = Math.random() * 2 * Math.PI;
+                const speed = SPEED * randBetween(0.6, 1.4);
+
+                objects.push({
+                    ...def,
+                    x, y,
+                    vx: Math.cos(angle) * speed,
+                    vy: Math.sin(angle) * speed,
+                    el: null,
+                    // pulse scale driven by CSS animation, tracked separately for collision box
+                    scale: 1,
+                });
+            });
+        }
+
+        function rectsOverlap(ax, ay, aw, ah, bx, by, bw, bh, pad = 0) {
+            return ax < bx + bw + pad &&
+                ax + aw + pad > bx &&
+                ay < by + bh + pad &&
+                ay + ah + pad > by;
+        }
+
+        // ─────────────────────────────────────────────────
+        // DOM BUILD
+        // ─────────────────────────────────────────────────
+        function buildDOM() {
+            const container = document.getElementById('viz-container');
+
+            objects.forEach(obj => {
+                const div = document.createElement('div');
+                div.className = 'shape' + (obj.filled ? ' filled' : '');
+                div.style.width = obj.w + 'px';
+                div.style.height = obj.h + 'px';
+                div.style.left = obj.x + 'px';
+                div.style.top = obj.y + 'px';
+
+                if (obj.filled) {
+                    div.style.backgroundColor = obj.color;
+                } else {
+                    div.style.border = `1px solid ${obj.color}`;
+                    div.style.backgroundColor = 'transparent';
+                }
+
+                // Label
+                const span = document.createElement('span');
+                span.className = 'label-text';
+                span.textContent = obj.label;
+                span.style.position = 'absolute';
+
+                switch (obj.labelPos) {
+                    case 'top-left':
+                        span.style.top = '-18px'; span.style.left = '0'; break;
+                    case 'top-right':
+                        span.style.top = '-18px'; span.style.right = '0'; break;
+                    case 'bottom-left':
+                        span.style.bottom = '-18px'; span.style.left = '0'; break;
+                    case 'bottom-right':
+                        span.style.bottom = '-18px'; span.style.right = '0'; break;
+                    case 'left-rotated':
+                        span.style.top = '0'; span.style.left = '-8px';
+                        span.style.transformOrigin = 'top right';
+                        span.style.transform = 'rotate(-90deg) translateX(-100%)';
+                        break;
+                }
+                div.appendChild(span);
+
+                // Hover events for the filled shape
+                if (obj.filled) {
+                    div.addEventListener('mouseenter', onFilledHover);
+                    div.addEventListener('mouseleave', onFilledLeave);
+                    div.addEventListener('click', openModal);
+                }
+
+                container.appendChild(div);
+                obj.el = div;
+            });
+        }
+
+        // ─────────────────────────────────────────────────
+        // ANIMATION LOOP
+        // ─────────────────────────────────────────────────
+        function tick() {
+            if (!frozen) {
+                const W = window.innerWidth;
+                const H = window.innerHeight;
+
+                // Move each object
+                objects.forEach(obj => {
+                    obj.x += obj.vx;
+                    obj.y += obj.vy;
+
+                    // Wall bounce
+                    if (obj.x < 0) { obj.x = 0; obj.vx = Math.abs(obj.vx); }
+                    if (obj.x + obj.w > W) { obj.x = W - obj.w; obj.vx = -Math.abs(obj.vx); }
+                    if (obj.y < MARGIN) { obj.y = MARGIN; obj.vy = Math.abs(obj.vy); }
+                    if (obj.y + obj.h > H - MARGIN) { obj.y = H - MARGIN - obj.h; obj.vy = -Math.abs(obj.vy); }
+                });
+
+                // Collision detection between pairs
+                for (let i = 0; i < objects.length; i++) {
+                    for (let j = i + 1; j < objects.length; j++) {
+                        const a = objects[i], b = objects[j];
+                        if (rectsOverlap(a.x, a.y, a.w, a.h, b.x, b.y, b.w, b.h, 1)) {
+                            resolveCollision(a, b);
+                        }
+                    }
+                }
+
+                // Apply positions
+                objects.forEach(obj => {
+                    obj.el.style.left = obj.x + 'px';
+                    obj.el.style.top = obj.y + 'px';
+                });
+            }
+
+            rafId = requestAnimationFrame(tick);
+        }
+
+        function resolveCollision(a, b) {
+            // Find overlap on each axis
+            const overlapX = (a.x + a.w / 2) - (b.x + b.w / 2);
+            const overlapY = (a.y + a.h / 2) - (b.y + b.h / 2);
+
+            // Swap velocity components based on dominant axis of collision
+            if (Math.abs(overlapX) > Math.abs(overlapY)) {
+                // Horizontal collision dominant
+                const tmpVx = a.vx; a.vx = b.vx; b.vx = tmpVx;
+                // Separate them
+                const sep = (a.w / 2 + b.w / 2) - Math.abs(overlapX) + 2;
+                if (overlapX > 0) { a.x += sep / 2; b.x -= sep / 2; }
+                else { a.x -= sep / 2; b.x += sep / 2; }
+            } else {
+                // Vertical collision dominant
+                const tmpVy = a.vy; a.vy = b.vy; b.vy = tmpVy;
+                const sep = (a.h / 2 + b.h / 2) - Math.abs(overlapY) + 2;
+                if (overlapY > 0) { a.y += sep / 2; b.y -= sep / 2; }
+                else { a.y -= sep / 2; b.y += sep / 2; }
+            }
+        }
+
+        // ─────────────────────────────────────────────────
+        // AUDIO PREVIEW
+        // ─────────────────────────────────────────────────
+        const previewAudio = new Audio('KFbeing.mp3');
+        previewAudio.loop = false;
+        previewAudio.volume = 0.8;
+
+        let audioUnlocked = false;
+        const unlockOverlay = document.getElementById('audio-unlock');
+
+        unlockOverlay.addEventListener('click', () => {
+            previewAudio.play().then(() => {
+                previewAudio.pause();
+                previewAudio.currentTime = 0;
+                audioUnlocked = true;
+            }).catch(() => { });
+            unlockOverlay.style.display = 'none';
+        });
+
+        // ─────────────────────────────────────────────────
+        // HOVER / FREEZE
+        // ─────────────────────────────────────────────────
+        let modalOpen = false;
+
+        function onFilledHover(e) {
+            frozen = true;
+            document.body.classList.add('freeze');
+            e.currentTarget.classList.add('hovered');
+            objects.forEach(o => { o.el.style.cursor = 'default'; });
+            const filledObj = objects.find(o => o.filled);
+            if (filledObj) filledObj.el.style.cursor = 'pointer';
+
+            // Resume from where it paused
+            previewAudio.play().catch(() => { });
+        }
+
+        function onFilledLeave(e) {
+            if (modalOpen) return;
+            frozen = false;
+            document.body.classList.remove('freeze');
+            e.currentTarget.classList.remove('hovered');
+
+            // Pause (keep position)
+            previewAudio.pause();
+        }
+
+        // ─────────────────────────────────────────────────
+        // MODAL
+        // ─────────────────────────────────────────────────
+        const overlay = document.getElementById('modal-overlay');
+        const closeBtn = document.getElementById('modal-close');
+
+        function openModal() {
+            modalOpen = true;
+            frozen = true;
+            overlay.classList.add('open');
+            // Stop preview audio when entering conversation
+            previewAudio.pause();
+            previewAudio.currentTime = 0;
+            objects.forEach(o => {
+                o.el.classList.remove('hovered');
+                o.el.style.cursor = 'default';
+            });
+        }
+
+        function closeModal() {
+            modalOpen = false;
+            overlay.classList.remove('open');
+            frozen = false;
+            document.body.classList.remove('freeze');
+            objects.forEach(o => o.el.classList.remove('hovered'));
+        }
+
+        closeBtn.addEventListener('click', closeModal);
+        overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
+
+        // ─────────────────────────────────────────────────
+        // INIT
+        // ─────────────────────────────────────────────────
+        initObjects();
+        buildDOM();
+        tick();
+    </script>
+</body>
+
+</html>
