@@ -283,23 +283,23 @@
         // SHAPE DEFINITIONS
         // ─────────────────────────────────────────────────
         const SHAPES_DEF = [
-            { id: 'NODE_01', w: 48, h: 192, color: '#ff007f', filled: false, label: 'name / 0000-00-00', labelPos: 'top-left' },
+            { id: 'NODE_01', w: 48, h: 192, color: '#00ffff', filled: false, label: 'name / 0000-00-00', labelPos: 'top-left' },
             { id: 'VECTOR_B', w: 256, h: 32, color: '#00ffff', filled: false, label: 'name / 0000-00-00', labelPos: 'bottom-right' },
             { id: 'ID_9928', w: 96, h: 96, color: '#ffff00', filled: false, label: 'name / 0000-00-00', labelPos: 'left-rotated' },
             { id: 'STRUC_04', w: 16, h: 128, color: '#32cd32', filled: false, label: 'name / 0000-00-00', labelPos: 'top-right' },
-            { id: 'LATENCY_CORE', w: 320, h: 64, color: '#ff007f', filled: false, label: 'name / 0000-00-00', labelPos: 'top-left' },
-            { id: 'NODE_06', w: 64, h: 48, color: '#00ffff', filled: false, label: 'name / 0000-00-00', labelPos: 'bottom-left' },
-            { id: 'UPTIME_REF', w: 24, h: 256, color: '#32cd32', filled: false, label: 'name / 0000-00-00', labelPos: 'bottom-right' },
-            { id: 'MAPPING_X', w: 80, h: 160, color: '#ffff00', filled: false, label: 'name / 0000-00-00', labelPos: 'top-right' },
-            { id: 'SYNC_PULSE', w: 160, h: 16, color: '#ff007f', filled: false, label: 'name / 0000-00-00', labelPos: 'top-left' },
-            { id: 'BOUND_BOX_10', w: 128, h: 128, color: '#00ffff', filled: false, label: 'name / 0000-00-00', labelPos: 'top-left' },
-            { id: 'NODE_11', w: 48, h: 48, color: '#32cd32', filled: false, label: 'name / 0000-00-00', labelPos: 'bottom-left' },
-            { id: 'STREAM_END', w: 224, h: 8, color: '#ffff00', filled: false, label: 'name / 0000-00-00', labelPos: 'top-right' },
-            { id: 'COORD_13', w: 8, h: 96, color: '#ff007f', filled: false, label: 'name / 0000-00-00', labelPos: 'top-right' },
-            { id: 'ENTITY_DENSITY', w: 56, h: 224, color: '#00ffff', filled: true, label: 'KF being', labelPos: 'bottom-left' }, // ← AGENT
-            { id: 'BIT_RATE', w: 80, h: 80, color: '#32cd32', filled: false, label: 'name / 0000-00-00', labelPos: 'bottom-right' },
-            { id: 'REF_VAL', w: 128, h: 48, color: '#ffff00', filled: false, label: 'name / 0000-00-00', labelPos: 'left-rotated' },
-            { id: 'LINKAGE_PRIME', w: 128, h: 4, color: '#00ffff', filled: false, label: 'name / 0000-00-00', labelPos: 'top-left' },
+            { id: 'LATENCY_CORE', w: 320, h: 64, color: '#ff00ff', filled: false, label: 'name / 0000-00-00', labelPos: 'top-left' }, // Neon Magenta
+            { id: 'NODE_06', w: 64, h: 48, color: '#ff0000', filled: false, label: 'name / 0000-00-00', labelPos: 'bottom-left' }, // Neon Red
+            { id: 'UPTIME_REF', w: 24, h: 256, color: '#ff5e00', filled: false, label: 'name / 0000-00-00', labelPos: 'bottom-right' }, // Neon Orange
+            { id: 'MAPPING_X', w: 80, h: 160, color: '#bfff00', filled: false, label: 'name / 0000-00-00', labelPos: 'top-right' }, // Neon Chartreuse
+            { id: 'SYNC_PULSE', w: 160, h: 16, color: '#00ff00', filled: false, label: 'name / 0000-00-00', labelPos: 'top-left' }, // Neon Green
+            { id: 'BOUND_BOX_10', w: 128, h: 128, color: '#00ff9d', filled: false, label: 'name / 0000-00-00', labelPos: 'top-left' }, // Neon Spring Green
+            { id: 'NODE_11', w: 48, h: 48, color: '#00bfff', filled: false, label: 'name / 0000-00-00', labelPos: 'bottom-left' }, // Neon Deep Sky Blue
+            { id: 'STREAM_END', w: 224, h: 8, color: '#0000ff', filled: false, label: 'name / 0000-00-00', labelPos: 'top-right' }, // Neon Blue
+            { id: 'COORD_13', w: 8, h: 96, color: '#7f00ff', filled: false, label: 'name / 0000-00-00', labelPos: 'top-right' }, // Neon Violet
+            { id: 'ENTITY_DENSITY', w: 56, h: 224, color: '#00ffff', filled: true, label: 'KF being', labelPos: 'bottom-left' }, // Neon Deep Pink  ← AGENT
+            { id: 'BIT_RATE', w: 80, h: 80, color: '#ffea00', filled: false, label: 'name / 0000-00-00', labelPos: 'bottom-right' }, // Neon Goldenrod 
+            { id: 'REF_VAL', w: 128, h: 48, color: '#9d00ff', filled: false, label: 'name / 0000-00-00', labelPos: 'left-rotated' }, // Neon Purple
+            { id: 'LINKAGE_PRIME', w: 128, h: 4, color: '#ff0055', filled: false, label: 'name / 0000-00-00', labelPos: 'top-left' }, // Neon Crimson
         ];
 
         // ─────────────────────────────────────────────────
@@ -538,6 +538,18 @@
             frozen = false;
             document.body.classList.remove('freeze');
             objects.forEach(o => o.el.classList.remove('hovered'));
+
+            // Force widget reload to stop audio/call
+            const widgetContainer = document.querySelector('.widget-container');
+            if (widgetContainer) {
+                // Get the current active agent id
+                const currentAgentId = widgetContainer.querySelector('elevenlabs-convai')?.getAttribute('agent-id') || 'agent_3101kjq6p68aexcaw96a1zkrxsbf';
+                // Wiping and re-rendering forces the widget component to reset
+                widgetContainer.innerHTML = '';
+                setTimeout(() => {
+                    widgetContainer.innerHTML = `<elevenlabs-convai agent-id="${currentAgentId}"></elevenlabs-convai>`;
+                }, 50);
+            }
         }
 
         closeBtn.addEventListener('click', closeModal);
@@ -549,6 +561,35 @@
         initObjects();
         buildDOM();
         tick();
+
+        // ─────────────────────────────────────────────────
+        // SWITCH ELEVENLABS AGENT VIA KEYBOARD
+        // ─────────────────────────────────────────────────
+        document.addEventListener('keydown', (e) => {
+            if (['1', '2', '3'].includes(e.key)) {
+                let newAgentId = '';
+                switch (e.key) {
+                    case '1':
+                        newAgentId = 'agent_3101kjq6p68aexcaw96a1zkrxsbf';
+                        break;
+                    case '2':
+                        newAgentId = 'agent_2201kkrhjmxvekcsy2v0dckktw99';
+                        break;
+                    case '3':
+                        newAgentId = 'agent_8701kkrhnmwcf7r8d6zgqb29qrdh';
+                        break;
+                }
+
+                // Find existing widget container
+                const widgetContainer = document.querySelector('.widget-container');
+                if (widgetContainer) {
+                    // Update agent ID dynamically by re-rendering the component
+                    // ConvAI widget requires exact element replacement to refresh agent ID
+                    widgetContainer.innerHTML = `<elevenlabs-convai agent-id="${newAgentId}"></elevenlabs-convai>`;
+                    console.log(`Agent switched to: ${newAgentId} (Key ${e.key})`);
+                }
+            }
+        });
     </script>
 </body>
 
