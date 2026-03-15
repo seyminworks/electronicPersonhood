@@ -470,19 +470,30 @@
         // ─────────────────────────────────────────────────
         // AUDIO PREVIEW
         // ─────────────────────────────────────────────────
-        const previewAudio = new Audio('KFbeing_01.mp3');
-        previewAudio.loop = false;
-        previewAudio.volume = 0.8;
+        const previewAudios = [
+            new Audio('KFbeing_01.mp3'),
+            new Audio('KFbeing_02.mp3'),
+            new Audio('KFbeing_03.mp3')
+        ];
 
+        previewAudios.forEach(audio => {
+            audio.loop = false;
+            audio.volume = 0.8;
+        });
+
+        let currentAudio = null;
         let audioUnlocked = false;
         const unlockOverlay = document.getElementById('audio-unlock');
 
         unlockOverlay.addEventListener('click', () => {
-            previewAudio.play().then(() => {
-                previewAudio.pause();
-                previewAudio.currentTime = 0;
-                audioUnlocked = true;
-            }).catch(() => { });
+            // Unlock all 3 audio elements on first user interaction
+            previewAudios.forEach(audio => {
+                audio.play().then(() => {
+                    audio.pause();
+                    audio.currentTime = 0;
+                }).catch(() => { });
+            });
+            audioUnlocked = true;
             unlockOverlay.style.display = 'none';
         });
 
@@ -499,8 +510,12 @@
             const filledObj = objects.find(o => o.filled);
             if (filledObj) filledObj.el.style.cursor = 'pointer';
 
-            // Resume from where it paused
-            previewAudio.play().catch(() => { });
+            if (audioUnlocked) {
+                // Randomly select one of the 3 audio files and resume from where it paused
+                const randomIndex = Math.floor(Math.random() * previewAudios.length);
+                currentAudio = previewAudios[randomIndex];
+                currentAudio.play().catch(() => { });
+            }
         }
 
         function onFilledLeave(e) {
@@ -510,7 +525,9 @@
             e.currentTarget.classList.remove('hovered');
 
             // Pause (keep position)
-            previewAudio.pause();
+            if (currentAudio) {
+                currentAudio.pause();
+            }
         }
 
         // ─────────────────────────────────────────────────
@@ -524,8 +541,9 @@
             frozen = true;
             overlay.classList.add('open');
             // Stop preview audio when entering conversation
-            previewAudio.pause();
-            previewAudio.currentTime = 0;
+            if (currentAudio) {
+                currentAudio.pause();
+            }
             objects.forEach(o => {
                 o.el.classList.remove('hovered');
                 o.el.style.cursor = 'default';
