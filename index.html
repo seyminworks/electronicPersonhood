@@ -283,9 +283,9 @@
         // SHAPE DEFINITIONS
         // ─────────────────────────────────────────────────
         const SHAPES_DEF = [
-            { id: 'NODE_01', w: 72, h: 288, color: '#00ffff', filled: false, label: 'name / 0000-00-00', labelPos: 'top-left' },
-            { id: 'VECTOR_B', w: 384, h: 48, color: '#ff007f', filled: true, label: 'VECTOR_B', labelPos: 'bottom-right' },
-            { id: 'ID_9928', w: 144, h: 144, color: '#ffff00', filled: true, label: 'ID_9928', labelPos: 'left-rotated' },
+            { id: 'NODE_01', w: 72, h: 288, color: '#ff00aa', filled: false, label: 'name / 0000-00-00', labelPos: 'top-left' }, // Neon Deep Pink
+            { id: 'VECTOR_B', w: 384, h: 48, color: '#ff007f', filled: false, label: 'name / 0000-00-00', labelPos: 'bottom-right' },
+            { id: 'ID_9928', w: 144, h: 144, color: '#ffff00', filled: false, label: 'name / 0000-00-00', labelPos: 'bottom-left' },
             { id: 'STRUC_04', w: 24, h: 192, color: '#32cd32', filled: false, label: 'name / 0000-00-00', labelPos: 'top-right' },
             { id: 'LATENCY_CORE', w: 480, h: 96, color: '#ff00ff', filled: false, label: 'name / 0000-00-00', labelPos: 'top-left' }, // Neon Magenta
             { id: 'NODE_06', w: 96, h: 72, color: '#ff0000', filled: false, label: 'name / 0000-00-00', labelPos: 'bottom-left' }, // Neon Red
@@ -294,12 +294,13 @@
             { id: 'SYNC_PULSE', w: 240, h: 24, color: '#00ff00', filled: false, label: 'name / 0000-00-00', labelPos: 'top-left' }, // Neon Green
             { id: 'BOUND_BOX_10', w: 192, h: 192, color: '#00ff9d', filled: false, label: 'name / 0000-00-00', labelPos: 'top-left' }, // Neon Spring Green
             { id: 'NODE_11', w: 72, h: 72, color: '#00bfff', filled: false, label: 'name / 0000-00-00', labelPos: 'bottom-left' }, // Neon Deep Sky Blue
-            { id: 'STREAM_END', w: 336, h: 12, color: '#0000ff', filled: false, label: 'name / 0000-00-00', labelPos: 'top-right' }, // Neon Blue
-            { id: 'COORD_13', w: 12, h: 144, color: '#7f00ff', filled: false, label: 'name / 0000-00-00', labelPos: 'top-right' }, // Neon Violet
-            { id: 'ENTITY_DENSITY', w: 84, h: 336, color: '#00ffff', filled: true, label: 'KF being', labelPos: 'bottom-left' }, // Neon Deep Pink  ← AGENT
+            { id: 'STREAM_END', w: 336, h: 20, color: '#0000ff', filled: false, label: 'name / 0000-00-00', labelPos: 'top-right' }, // Neon Blue
+            { id: 'COORD_13', w: 20, h: 144, color: '#7f00ff', filled: false, label: 'name / 0000-00-00', labelPos: 'top-right' }, // Neon Violet
+            { id: 'ENTITY_DENSITY', w: 84, h: 336, color: '#00ffff', filled: true, label: 'KF being : 2026-03-31', labelPos: 'bottom-left' }, // Cyan!  ← AGENT
             { id: 'BIT_RATE', w: 120, h: 120, color: '#ffea00', filled: false, label: 'name / 0000-00-00', labelPos: 'bottom-right' }, // Neon Goldenrod 
-            { id: 'REF_VAL', w: 192, h: 72, color: '#9d00ff', filled: false, label: 'name / 0000-00-00', labelPos: 'left-rotated' }, // Neon Purple
-            { id: 'LINKAGE_PRIME', w: 192, h: 6, color: '#ff0055', filled: false, label: 'name / 0000-00-00', labelPos: 'top-left' }, // Neon Crimson
+            { id: 'REF_VAL', w: 192, h: 72, color: '#9d00ff', filled: false, label: 'name / 0000-00-00', labelPos: 'bottom-left' }, // Neon Purple
+            { id: 'LINKAGE_PRIME', w: 192, h: 16, color: '#ff0055', filled: false, label: 'name / 0000-00-00', labelPos: 'top-left' }, // Neon Crimson
+            { id: 'LINKAGE_PRIME', w: 192, h: 16, color: '#ff0055', filled: false, label: 'name / 0000-00-00', labelPos: 'top-left' }, // Neon Crimson
         ];
 
         // ─────────────────────────────────────────────────
@@ -393,8 +394,14 @@
                 }
                 div.appendChild(span);
 
-                // Hover events for the filled shape
+                // Pulse animation for all filled shapes
                 if (obj.filled) {
+                    div.style.animationDuration = randBetween(2.5, 5.5) + 's'; // random pulse speed (slower)
+                }
+
+                // Hover events ONLY for KF being
+                if (obj.id === 'ENTITY_DENSITY') {
+                    div.style.cursor = 'pointer';
                     div.addEventListener('mouseenter', onFilledHover);
                     div.addEventListener('mouseleave', onFilledLeave);
                     div.addEventListener('click', () => openModal(obj));
@@ -470,29 +477,19 @@
         // ─────────────────────────────────────────────────
         // AUDIO PREVIEW
         // ─────────────────────────────────────────────────
-        const previewAudios = [
-            new Audio('KFbeing_01.mp3'),
-            new Audio('KFbeing_02.mp3'),
-            new Audio('KFbeing_03.mp3')
-        ];
+        const previewAudio = new Audio('KFbeing_00.mp3');
+        previewAudio.loop = false;
+        previewAudio.volume = 0.8;
 
-        previewAudios.forEach(audio => {
-            audio.loop = false;
-            audio.volume = 0.8;
-        });
-
-        let currentAudio = null;
         let audioUnlocked = false;
         const unlockOverlay = document.getElementById('audio-unlock');
 
         unlockOverlay.addEventListener('click', () => {
-            // Unlock all 3 audio elements on first user interaction
-            previewAudios.forEach(audio => {
-                audio.play().then(() => {
-                    audio.pause();
-                    audio.currentTime = 0;
-                }).catch(() => { });
-            });
+            // Unlock audio on first user interaction
+            previewAudio.play().then(() => {
+                previewAudio.pause();
+                previewAudio.currentTime = 0;
+            }).catch(() => { });
             audioUnlocked = true;
             unlockOverlay.style.display = 'none';
         });
@@ -510,10 +507,8 @@
             e.currentTarget.style.cursor = 'pointer';
 
             if (audioUnlocked) {
-                // Randomly select one of the 3 audio files and resume from where it paused
-                const randomIndex = Math.floor(Math.random() * previewAudios.length);
-                currentAudio = previewAudios[randomIndex];
-                currentAudio.play().catch(() => { });
+                // Resume from where it paused
+                previewAudio.play().catch(() => { });
             }
         }
 
@@ -524,13 +519,11 @@
             e.currentTarget.classList.remove('hovered');
 
             objects.forEach(o => {
-                if (o.filled) o.el.style.cursor = 'pointer';
+                if (o.id === 'ENTITY_DENSITY') o.el.style.cursor = 'pointer';
             });
 
             // Pause (keep position)
-            if (currentAudio) {
-                currentAudio.pause();
-            }
+            previewAudio.pause();
         }
 
         // ─────────────────────────────────────────────────
@@ -544,28 +537,23 @@
             frozen = true;
             overlay.classList.add('open');
             // Stop preview audio when entering conversation
-            if (currentAudio) {
-                currentAudio.pause();
-            }
+            previewAudio.pause();
             objects.forEach(o => {
                 o.el.classList.remove('hovered');
                 o.el.style.cursor = 'default';
+
+                // Pause pulse animation for all shapes except the clicked one
+                if (!obj || o.id !== obj.id) {
+                    o.el.style.animationPlayState = 'paused';
+                }
             });
 
-            // Set modal metadata and widget based on the clicked shape
+            // Set modal metadata and widget
             const modalName = document.querySelector('.modal-name');
             const widgetContainer = document.querySelector('.widget-container');
 
-            let agentId = 'agent_3101kjq6p68aexcaw96a1zkrxsbf'; // fallback / ENTITY_DENSITY
-            if (obj && obj.id === 'VECTOR_B') {
-                agentId = 'agent_2201kkrhjmxvekcsy2v0dckktw99';
-                modalName.textContent = 'VECTOR_B';
-            } else if (obj && obj.id === 'ID_9928') {
-                agentId = 'agent_8701kkrhnmwcf7r8d6zgqb29qrdh';
-                modalName.textContent = 'ID_9928';
-            } else {
-                modalName.textContent = 'KF being';
-            }
+            let agentId = 'agent_3101kjq6p68aexcaw96a1zkrxsbf'; // KF being
+            modalName.textContent = 'KF being';
 
             if (widgetContainer) {
                 widgetContainer.innerHTML = `<elevenlabs-convai agent-id="${agentId}"></elevenlabs-convai>`;
@@ -579,7 +567,10 @@
             document.body.classList.remove('freeze');
             objects.forEach(o => {
                 o.el.classList.remove('hovered');
-                if (o.filled) o.el.style.cursor = 'pointer';
+                if (o.id === 'ENTITY_DENSITY') o.el.style.cursor = 'pointer';
+
+                // Resume pulse animation for all shapes
+                o.el.style.animationPlayState = 'running';
             });
 
             // Force widget reload to stop audio/call
@@ -604,35 +595,6 @@
         initObjects();
         buildDOM();
         tick();
-
-        // ─────────────────────────────────────────────────
-        // SWITCH ELEVENLABS AGENT VIA KEYBOARD
-        // ─────────────────────────────────────────────────
-        document.addEventListener('keydown', (e) => {
-            if (['1', '2', '3'].includes(e.key)) {
-                let newAgentId = '';
-                switch (e.key) {
-                    case '1':
-                        newAgentId = 'agent_3101kjq6p68aexcaw96a1zkrxsbf';
-                        break;
-                    case '2':
-                        newAgentId = 'agent_2201kkrhjmxvekcsy2v0dckktw99';
-                        break;
-                    case '3':
-                        newAgentId = 'agent_8701kkrhnmwcf7r8d6zgqb29qrdh';
-                        break;
-                }
-
-                // Find existing widget container
-                const widgetContainer = document.querySelector('.widget-container');
-                if (widgetContainer) {
-                    // Update agent ID dynamically by re-rendering the component
-                    // ConvAI widget requires exact element replacement to refresh agent ID
-                    widgetContainer.innerHTML = `<elevenlabs-convai agent-id="${newAgentId}"></elevenlabs-convai>`;
-                    console.log(`Agent switched to: ${newAgentId} (Key ${e.key})`);
-                }
-            }
-        });
     </script>
 </body>
 
