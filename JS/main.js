@@ -1,25 +1,36 @@
 // SHAPE DEFINITIONS
 // ─────────────────────────────────────────────────
 const SHAPES_DEF = [
-    { id: 'NODE_01', w: 72, h: 288, color: '#ff00aa', filled: false, label: 'name / 0000-00-00', labelPos: 'top-left' }, // Neon Deep Pink
-    { id: 'VECTOR_B', w: 384, h: 48, color: '#ff007f', filled: false, label: 'name / 0000-00-00', labelPos: 'bottom-right' },
-    { id: 'ID_9928', w: 144, h: 144, color: '#ffff00', filled: false, label: 'name / 0000-00-00', labelPos: 'bottom-left' },
-    { id: 'STRUC_04', w: 24, h: 192, color: '#32cd32', filled: false, label: 'name / 0000-00-00', labelPos: 'top-right' },
-    { id: 'LATENCY_CORE', w: 480, h: 96, color: '#ff00ff', filled: false, label: 'name / 0000-00-00', labelPos: 'top-left' }, // Neon Magenta
-    { id: 'NODE_06', w: 96, h: 72, color: '#ff0000', filled: false, label: 'name / 0000-00-00', labelPos: 'bottom-left' }, // Neon Red
-    { id: 'UPTIME_REF', w: 36, h: 384, color: '#ff5e00', filled: false, label: 'name / 0000-00-00', labelPos: 'bottom-right' }, // Neon Orange
-    { id: 'MAPPING_X', w: 120, h: 240, color: '#bfff00', filled: false, label: 'name / 0000-00-00', labelPos: 'top-right' }, // Neon Chartreuse
-    { id: 'SYNC_PULSE', w: 240, h: 24, color: '#00ff00', filled: false, label: 'name / 0000-00-00', labelPos: 'top-left' }, // Neon Green
-    { id: 'BOUND_BOX_10', w: 192, h: 192, color: '#00ff9d', filled: false, label: 'name / 0000-00-00', labelPos: 'top-left' }, // Neon Spring Green
-    { id: 'NODE_11', w: 72, h: 72, color: '#00bfff', filled: false, label: 'name / 0000-00-00', labelPos: 'bottom-left' }, // Neon Deep Sky Blue
-    { id: 'STREAM_END', w: 336, h: 20, color: '#0000ff', filled: false, label: 'name / 0000-00-00', labelPos: 'top-right' }, // Neon Blue
-    { id: 'COORD_13', w: 20, h: 144, color: '#7f00ff', filled: false, label: 'name / 0000-00-00', labelPos: 'top-right' }, // Neon Violet
-    { id: 'ENTITY_DENSITY', w: 84, h: 336, color: '#00ffff', filled: true, label: 'KF being : 2026-03-31', labelPos: 'bottom-left' }, // Cyan!  ← AGENT
-    { id: 'BIT_RATE', w: 120, h: 120, color: '#ffea00', filled: false, label: 'name / 0000-00-00', labelPos: 'bottom-right' }, // Neon Goldenrod 
-    { id: 'REF_VAL', w: 192, h: 72, color: '#9d00ff', filled: false, label: 'name / 0000-00-00', labelPos: 'bottom-left' }, // Neon Purple
-    { id: 'LINKAGE_PRIME', w: 192, h: 16, color: '#ff0055', filled: false, label: 'name / 0000-00-00', labelPos: 'top-left' }, // Neon Crimson
-
-
+    { id: 'NODE_01', w: 36, h: 144, color: '#ff00aa', filled: true, label: 'name / 0000-00-00', labelPos: 'top-left' }, // Neon Deep Pink
+    { id: 'VECTOR_B', w: 192, h: 24, color: '#ff007f', filled: true, label: 'name / 0000-00-00', labelPos: 'bottom-right' },
+    { id: 'ID_9928', w: 72, h: 72, color: '#ffff00', filled: true, label: 'name / 0000-00-00', labelPos: 'bottom-left' },
+    { id: 'STRUC_04', w: 20, h: 96, color: '#32cd32', filled: true, label: 'name / 0000-00-00', labelPos: 'top-right' },
+    { id: 'LATENCY_CORE', w: 240, h: 48, color: '#ff00ff', filled: true, label: 'name / 0000-00-00', labelPos: 'top-left' }, // Neon Magenta
+    { id: 'NODE_06', w: 48, h: 36, color: '#ff0000', filled: false, label: 'name / 0000-00-00', labelPos: 'bottom-left' }, // Neon Red
+    { id: 'UPTIME_REF', w: 20, h: 192, color: '#ff5e00', filled: true, label: 'name / 0000-00-00', labelPos: 'bottom-right' }, // Neon Orange
+    { id: 'MAPPING_X', w: 60, h: 120, color: '#bfff00', filled: true, label: 'name / 0000-00-00', labelPos: 'top-right' }, // Neon Chartreuse
+    { id: 'SYNC_PULSE', w: 120, h: 20, color: '#00ff00', filled: false, label: 'name / 0000-00-00', labelPos: 'top-left' }, // Neon Green
+    { id: 'BOUND_BOX_10', w: 96, h: 96, color: '#00ff9d', filled: true, label: 'name / 0000-00-00', labelPos: 'top-left' }, // Neon Spring Green
+    { id: 'NODE_11', w: 36, h: 36, color: '#00bfff', filled: true, label: 'name / 0000-00-00', labelPos: 'bottom-left' }, // Neon Deep Sky Blue
+    { id: 'STREAM_END', w: 168, h: 20, color: '#0000ff', filled: false, label: 'name / 0000-00-00', labelPos: 'top-right' }, // Neon Blue
+    { id: 'COORD_13', w: 20, h: 72, color: '#7f00ff', filled: true, label: 'name / 0000-00-00', labelPos: 'top-right' }, // Neon Violet
+    { id: 'ENTITY_DENSITY', w: 42, h: 168, color: '#00ffff', filled: true, label: 'KF being : 2026-03-31', labelPos: 'bottom-left' }, // Cyan!  ← AGENT
+    { id: 'BIT_RATE', w: 60, h: 60, color: '#ffea00', filled: true, label: 'name / 0000-00-00', labelPos: 'bottom-right' }, // Neon Goldenrod 
+    { id: 'REF_VAL', w: 96, h: 36, color: '#9d00ff', filled: true, label: 'name / 0000-00-00', labelPos: 'bottom-left' }, // Neon Purple
+    { id: 'LINKAGE_PRIME', w: 96, h: 20, color: '#ff0055', filled: true, label: 'name / 0000-00-00', labelPos: 'top-left' }, // Neon Crimson
+    { id: 'NODE_18', w: 72, h: 24, color: '#00ffcc', filled: true, label: 'name / 0000-00-00', labelPos: 'bottom-right' }, // Neon Teal
+    { id: 'STRUC_19', w: 30, h: 120, color: '#ff9900', filled: true, label: 'name / 0000-00-00', labelPos: 'top-right' }, // Bright Orange
+    { id: 'BOX_20', w: 100, h: 100, color: '#ccff00', filled: true, label: 'name / 0000-00-00', labelPos: 'top-left' }, // Neon Yellow-Green
+    { id: 'LINK_21', w: 20, h: 90, color: '#ff00cc', filled: false, label: 'name / 0000-00-00', labelPos: 'bottom-left' }, // Hot Magenta
+    { id: 'PULSE_22', w: 140, h: 20, color: '#00ccff', filled: true, label: 'name / 0000-00-00', labelPos: 'top-right' }, // Neon Sky Blue
+    { id: 'NODE_23', w: 50, h: 50, color: '#9900ff', filled: true, label: 'name / 0000-00-00', labelPos: 'bottom-right' }, // Deep Purple
+    { id: 'STREAM_24', w: 150, h: 20, color: '#ff3333', filled: true, label: 'name / 0000-00-00', labelPos: 'top-left' }, // Light Neon Red
+    { id: 'REF_25', w: 20, h: 60, color: '#33ff99', filled: true, label: 'name / 0000-00-00', labelPos: 'bottom-left' }, // Mint Green
+    { id: 'TENSOR_26', w: 20, h: 20, color: '#ff1493', filled: true, label: 'name / 0000-00-00', labelPos: 'top-left' }, // Deep Pink
+    { id: 'VERTEX_27', w: 20, h: 20, color: '#00fa9a', filled: false, label: 'name / 0000-00-00', labelPos: 'bottom-right' }, // Medium Spring Green
+    { id: 'MATRIX_28', w: 20, h: 20, color: '#ff8c00', filled: true, label: 'name / 0000-00-00', labelPos: 'top-right' }, // Dark Orange
+    { id: 'NODE_29', w: 20, h: 20, color: '#adff2f', filled: true, label: 'name / 0000-00-00', labelPos: 'bottom-left' }, // Green Yellow
+    { id: 'PROXY_30', w: 20, h: 20, color: '#ba55d3', filled: true, label: 'name / 0000-00-00', labelPos: 'top-right' } // Medium Orchid
 ];
 
 // ─────────────────────────────────────────────────
