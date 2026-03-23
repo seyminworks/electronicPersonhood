@@ -1,36 +1,31 @@
 // SHAPE DEFINITIONS
 // ─────────────────────────────────────────────────
 const SHAPES_DEF = [
-    { id: 'NODE_01', w: 36, h: 144, color: '#ff00aa', filled: true, label: 'name / 0000-00-00', labelPos: 'top-left' }, // Neon Deep Pink
-    { id: 'VECTOR_B', w: 192, h: 24, color: '#ff007f', filled: true, label: 'name / 0000-00-00', labelPos: 'bottom-right' },
-    { id: 'ID_9928', w: 72, h: 72, color: '#ffff00', filled: true, label: 'name / 0000-00-00', labelPos: 'bottom-left' },
-    { id: 'STRUC_04', w: 20, h: 96, color: '#32cd32', filled: true, label: 'name / 0000-00-00', labelPos: 'top-right' },
-    { id: 'LATENCY_CORE', w: 240, h: 48, color: '#ff00ff', filled: true, label: 'name / 0000-00-00', labelPos: 'top-left' }, // Neon Magenta
-    { id: 'NODE_06', w: 48, h: 36, color: '#ff0000', filled: false, label: 'name / 0000-00-00', labelPos: 'bottom-left' }, // Neon Red
-    { id: 'UPTIME_REF', w: 20, h: 192, color: '#ff5e00', filled: true, label: 'name / 0000-00-00', labelPos: 'bottom-right' }, // Neon Orange
-    { id: 'MAPPING_X', w: 60, h: 120, color: '#bfff00', filled: true, label: 'name / 0000-00-00', labelPos: 'top-right' }, // Neon Chartreuse
-    { id: 'SYNC_PULSE', w: 120, h: 20, color: '#00ff00', filled: false, label: 'name / 0000-00-00', labelPos: 'top-left' }, // Neon Green
-    { id: 'BOUND_BOX_10', w: 96, h: 96, color: '#00ff9d', filled: true, label: 'name / 0000-00-00', labelPos: 'top-left' }, // Neon Spring Green
-    { id: 'NODE_11', w: 36, h: 36, color: '#00bfff', filled: true, label: 'name / 0000-00-00', labelPos: 'bottom-left' }, // Neon Deep Sky Blue
-    { id: 'STREAM_END', w: 168, h: 20, color: '#0000ff', filled: false, label: 'name / 0000-00-00', labelPos: 'top-right' }, // Neon Blue
-    { id: 'COORD_13', w: 20, h: 72, color: '#7f00ff', filled: true, label: 'name / 0000-00-00', labelPos: 'top-right' }, // Neon Violet
-    { id: 'ENTITY_DENSITY', w: 42, h: 168, color: '#00ffff', filled: true, label: 'KF being : 2026-03-31', labelPos: 'bottom-left' }, // Cyan!  ← AGENT
-    { id: 'BIT_RATE', w: 60, h: 60, color: '#ffea00', filled: true, label: 'name / 0000-00-00', labelPos: 'bottom-right' }, // Neon Goldenrod 
-    { id: 'REF_VAL', w: 96, h: 36, color: '#9d00ff', filled: true, label: 'name / 0000-00-00', labelPos: 'bottom-left' }, // Neon Purple
-    { id: 'LINKAGE_PRIME', w: 96, h: 20, color: '#ff0055', filled: true, label: 'name / 0000-00-00', labelPos: 'top-left' }, // Neon Crimson
-    { id: 'NODE_18', w: 72, h: 24, color: '#00ffcc', filled: true, label: 'name / 0000-00-00', labelPos: 'bottom-right' }, // Neon Teal
-    { id: 'STRUC_19', w: 30, h: 120, color: '#ff9900', filled: true, label: 'name / 0000-00-00', labelPos: 'top-right' }, // Bright Orange
-    { id: 'BOX_20', w: 100, h: 100, color: '#ccff00', filled: true, label: 'name / 0000-00-00', labelPos: 'top-left' }, // Neon Yellow-Green
-    { id: 'LINK_21', w: 20, h: 90, color: '#ff00cc', filled: false, label: 'name / 0000-00-00', labelPos: 'bottom-left' }, // Hot Magenta
-    { id: 'PULSE_22', w: 140, h: 20, color: '#00ccff', filled: true, label: 'name / 0000-00-00', labelPos: 'top-right' }, // Neon Sky Blue
-    { id: 'NODE_23', w: 50, h: 50, color: '#9900ff', filled: true, label: 'name / 0000-00-00', labelPos: 'bottom-right' }, // Deep Purple
-    { id: 'STREAM_24', w: 150, h: 20, color: '#ff3333', filled: true, label: 'name / 0000-00-00', labelPos: 'top-left' }, // Light Neon Red
-    { id: 'REF_25', w: 20, h: 60, color: '#33ff99', filled: true, label: 'name / 0000-00-00', labelPos: 'bottom-left' }, // Mint Green
-    { id: 'TENSOR_26', w: 20, h: 20, color: '#ff1493', filled: true, label: 'name / 0000-00-00', labelPos: 'top-left' }, // Deep Pink
-    { id: 'VERTEX_27', w: 20, h: 20, color: '#00fa9a', filled: false, label: 'name / 0000-00-00', labelPos: 'bottom-right' }, // Medium Spring Green
-    { id: 'MATRIX_28', w: 20, h: 20, color: '#ff8c00', filled: true, label: 'name / 0000-00-00', labelPos: 'top-right' }, // Dark Orange
-    { id: 'NODE_29', w: 20, h: 20, color: '#adff2f', filled: true, label: 'name / 0000-00-00', labelPos: 'bottom-left' }, // Green Yellow
-    { id: 'PROXY_30', w: 20, h: 20, color: '#ba55d3', filled: true, label: 'name / 0000-00-00', labelPos: 'top-right' } // Medium Orchid
+    { id: 'NODE_01', w: 43, h: 173, color: '#ff00aa', filled: true, label: 'name / 0000-00-00', labelPos: 'top-left' }, // Neon Deep Pink
+    { id: 'VECTOR_B', w: 230, h: 29, color: '#ff007f', filled: true, label: 'name / 0000-00-00', labelPos: 'bottom-right' },
+    { id: 'ID_9928', w: 86, h: 86, color: '#ffff00', filled: true, label: 'name / 0000-00-00', labelPos: 'bottom-left' },
+    { id: 'STRUC_04', w: 24, h: 115, color: '#32cd32', filled: true, label: 'name / 0000-00-00', labelPos: 'top-right' },
+    { id: 'LATENCY_CORE', w: 288, h: 58, color: '#ff00ff', filled: true, label: 'name / 0000-00-00', labelPos: 'top-left' }, // Neon Magenta
+    { id: 'NODE_06', w: 58, h: 43, color: '#ff0000', filled: false, label: 'name / 0000-00-00', labelPos: 'bottom-left' }, // Neon Red
+    { id: 'UPTIME_REF', w: 24, h: 230, color: '#ff5e00', filled: true, label: 'name / 0000-00-00', labelPos: 'bottom-right' }, // Neon Orange
+    { id: 'MAPPING_X', w: 72, h: 144, color: '#bfff00', filled: true, label: 'name / 0000-00-00', labelPos: 'top-right' }, // Neon Chartreuse
+    { id: 'SYNC_PULSE', w: 144, h: 24, color: '#00ff00', filled: false, label: 'name / 0000-00-00', labelPos: 'top-left' }, // Neon Green
+    { id: 'BOUND_BOX_10', w: 115, h: 115, color: '#00ff9d', filled: true, label: 'name / 0000-00-00', labelPos: 'top-left' }, // Neon Spring Green
+    { id: 'NODE_11', w: 43, h: 43, color: '#00bfff', filled: true, label: 'name / 0000-00-00', labelPos: 'bottom-left' }, // Neon Deep Sky Blue
+    { id: 'STREAM_END', w: 202, h: 24, color: '#0000ff', filled: false, label: 'name / 0000-00-00', labelPos: 'top-right' }, // Neon Blue
+    { id: 'COORD_13', w: 24, h: 86, color: '#7f00ff', filled: true, label: 'name / 0000-00-00', labelPos: 'top-right' }, // Neon Violet
+    { id: 'ENTITY_DENSITY', w: 50, h: 202, color: '#00ffff', filled: true, label: 'KF being : 2026-03-31', labelPos: 'bottom-left' }, // Cyan!  ← AGENT
+    { id: 'BIT_RATE', w: 72, h: 72, color: '#ffea00', filled: true, label: 'name / 0000-00-00', labelPos: 'bottom-right' }, // Neon Goldenrod 
+    { id: 'REF_VAL', w: 115, h: 43, color: '#9d00ff', filled: true, label: 'name / 0000-00-00', labelPos: 'bottom-left' }, // Neon Purple
+    { id: 'LINKAGE_PRIME', w: 115, h: 24, color: '#ff0055', filled: true, label: 'name / 0000-00-00', labelPos: 'top-left' }, // Neon Crimson
+    { id: 'NODE_18', w: 86, h: 29, color: '#00ffcc', filled: true, label: 'name / 0000-00-00', labelPos: 'bottom-right' }, // Neon Teal
+    { id: 'STRUC_19', w: 36, h: 144, color: '#ff9900', filled: true, label: 'name / 0000-00-00', labelPos: 'top-right' }, // Bright Orange
+    { id: 'BOX_20', w: 120, h: 120, color: '#ccff00', filled: true, label: 'name / 0000-00-00', labelPos: 'top-left' }, // Neon Yellow-Green
+    { id: 'LINK_21', w: 24, h: 108, color: '#ff00cc', filled: false, label: 'name / 0000-00-00', labelPos: 'bottom-left' }, // Hot Magenta
+    { id: 'PULSE_22', w: 168, h: 24, color: '#00ccff', filled: true, label: 'name / 0000-00-00', labelPos: 'top-right' }, // Neon Sky Blue
+    { id: 'NODE_23', w: 60, h: 60, color: '#9900ff', filled: true, label: 'name / 0000-00-00', labelPos: 'bottom-right' }, // Deep Purple
+    { id: 'STREAM_24', w: 180, h: 24, color: '#ff3333', filled: true, label: 'name / 0000-00-00', labelPos: 'top-left' }, // Light Neon Red
+    { id: 'REF_25', w: 24, h: 72, color: '#33ff99', filled: true, label: 'name / 0000-00-00', labelPos: 'bottom-left' } // Mint Green
 ];
 
 // ─────────────────────────────────────────────────
@@ -88,17 +83,41 @@ function buildDOM() {
 
     objects.forEach(obj => {
         const div = document.createElement('div');
-        div.className = 'shape' + (obj.filled ? ' filled' : '');
+        const isAgent = obj.id === 'ENTITY_DENSITY';
+        div.className = 'shape' + (isAgent ? ' filled' : '');
         div.style.width = obj.w + 'px';
         div.style.height = obj.h + 'px';
         div.style.left = obj.x + 'px';
         div.style.top = obj.y + 'px';
 
-        if (obj.filled) {
+        if (isAgent) {
             div.style.backgroundColor = obj.color;
         } else {
-            div.style.border = `1px solid ${obj.color}`;
+            const styles = ['outline', 'stripe', 'dot', 'crosshatch'];
+            const style = styles[Math.floor(Math.random() * styles.length)];
+
             div.style.backgroundColor = 'transparent';
+
+            if (style === 'outline') {
+                div.style.border = `1px solid ${obj.color}`;
+            } else if (style === 'stripe') {
+                div.style.border = 'none';
+                const gap = Math.floor(Math.random() * 7) + 2; // 2px ~ 8px
+                div.style.background = `repeating-linear-gradient(-45deg, transparent, transparent ${gap}px, ${obj.color} ${gap}px, ${obj.color} ${gap + 1}px)`;
+            } else if (style === 'dot') {
+                div.style.border = 'none';
+                const dotSize = Math.floor(Math.random() * 2) + 1; // 1px ~ 2px
+                const dotSpace = Math.floor(Math.random() * 7) + 5; // 5px ~ 11px
+                div.style.backgroundImage = `radial-gradient(circle, ${obj.color} ${dotSize}px, transparent ${dotSize}px)`;
+                div.style.backgroundSize = `${dotSpace}px ${dotSpace}px`;
+            } else if (style === 'crosshatch') {
+                div.style.border = 'none';
+                const gap = Math.floor(Math.random() * 8) + 8; // 8px ~ 15px
+                div.style.background = `
+                    repeating-linear-gradient(45deg, transparent, transparent ${gap}px, ${obj.color} ${gap}px, ${obj.color} ${gap + 1}px),
+                    repeating-linear-gradient(-45deg, transparent, transparent ${gap}px, ${obj.color} ${gap}px, ${obj.color} ${gap + 1}px)
+                `;
+            }
         }
 
         // Label
@@ -124,8 +143,8 @@ function buildDOM() {
         }
         div.appendChild(span);
 
-        // Pulse animation for all filled shapes
-        if (obj.filled) {
+        // Pulse animation ONLY for the agent shape (KF being)
+        if (isAgent) {
             div.style.animationDuration = randBetween(2.5, 5.5) + 's'; // random pulse speed (slower)
         }
 
