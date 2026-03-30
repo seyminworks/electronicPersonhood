@@ -12,7 +12,7 @@ const SHAPES_DEF = [
     { id: 'NODE_11', w: 43, h: 43, color: '#00bfff', filled: true, label: 'name / 0000-00-00', labelPos: 'bottom-left' }, // Neon Deep Sky Blue
     { id: 'STREAM_END', w: 202, h: 24, color: '#0000ff', filled: false, label: 'name / 0000-00-00', labelPos: 'top-right' }, // Neon Blue
     { id: 'COORD_13', w: 24, h: 86, color: '#7f00ff', filled: true, label: 'name / 0000-00-00', labelPos: 'top-right' }, // Neon Violet
-    { id: 'ENTITY_DENSITY', ..., label: 'KF Being<br>2026/03/31', labelPos: 'bottom-left' }, // Cyan!  ← AGENT
+    { id: 'ENTITY_DENSITY', w: 50, h: 202, color: '#00ffff', filled: true, label: 'KF Being<br>2026/03/31', labelPos: 'bottom-left' }, // Cyan!  ← AGENT
     { id: 'BIT_RATE', w: 72, h: 72, color: '#ffea00', filled: true, label: 'name / 0000-00-00', labelPos: 'bottom-right' }, // Neon Goldenrod 
     { id: 'REF_VAL', w: 115, h: 43, color: '#9d00ff', filled: true, label: 'name / 0000-00-00', labelPos: 'bottom-left' }, // Neon Purple
     { id: 'LINKAGE_PRIME', w: 115, h: 24, color: '#ff0055', filled: true, label: 'name / 0000-00-00', labelPos: 'top-left' }, // Neon Crimson
