@@ -98,6 +98,7 @@ function rectsOverlap(ax, ay, aw, ah, bx, by, bw, bh, pad = 0) {
 // ─────────────────────────────────────────────────
 function buildDOM() {
     const container = document.getElementById('viz-container');
+    if (!container) return;
 
     objects.forEach(obj => {
         const div = document.createElement('div');
@@ -354,8 +355,8 @@ function closeModal() {
     }
 }
 
-closeBtn.addEventListener('click', closeModal);
-overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
+if (closeBtn) closeBtn.addEventListener('click', closeModal);
+if (overlay) overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
 
 // ─────────────────────────────────────────────────
 // INIT
