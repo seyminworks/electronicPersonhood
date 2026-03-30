@@ -1,5 +1,3 @@
-// SHAPE DEFINITIONS
-// ─────────────────────────────────────────────────
 const SHAPES_DEF = [
     { id: 'NODE_01', w: 43, h: 173, color: '#ff00aa', filled: true, label: 'name / 0000-00-00', labelPos: 'top-left' }, // Neon Deep Pink
     { id: 'VECTOR_B', w: 230, h: 29, color: '#ff007f', filled: true, label: 'name / 0000-00-00', labelPos: 'bottom-right' },
@@ -243,25 +241,34 @@ function resolveCollision(a, b) {
 }
 
 // ─────────────────────────────────────────────────
+// HELPER: PREVENT REFERENCE ERROR FROM HTML ONCLICK
+// ─────────────────────────────────────────────────
+window.tryOpenFromCanvas = function(e) {
+    console.log("tryOpenFromCanvas called");
+};
+
+// ─────────────────────────────────────────────────
 // AUDIO PREVIEW
 // ─────────────────────────────────────────────────
 const previewAudio = new Audio('asset/sound/KFbeing_00.mp3');
 previewAudio.loop = true;
 previewAudio.volume = 0.8;
 
-let audioUnlocked = false;
+window.audioUnlocked = false;
 const unlockOverlay = document.getElementById('audio-unlock');
 if (unlockOverlay) {
     unlockOverlay.addEventListener('click', () => {
+        console.log("Overlay clicked (listener)");
         // Unlock audio on first user interaction
         previewAudio.play().then(() => {
             previewAudio.pause();
             previewAudio.currentTime = 0;
-        }).catch(() => { });
-        audioUnlocked = true;
+        }).catch((err) => { console.log("Audio play error:", err); });
+        window.audioUnlocked = true;
         unlockOverlay.style.display = 'none';
     });
 }
+
 
 // ─────────────────────────────────────────────────
 // HOVER / FREEZE
@@ -269,13 +276,14 @@ if (unlockOverlay) {
 let modalOpen = false;
 
 function onFilledHover(e) {
+    console.log("Hovered on filled shape");
     frozen = true;
     document.body.classList.add('freeze');
     e.currentTarget.classList.add('hovered');
     objects.forEach(o => { o.el.style.cursor = 'default'; });
     e.currentTarget.style.cursor = 'pointer';
 
-    if (audioUnlocked) {
+    if (window.audioUnlocked) {
         // Resume from where it paused
         previewAudio.play().catch(() => { });
     }
