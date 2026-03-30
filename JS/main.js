@@ -43,28 +43,46 @@ function initObjects() {
     const W = window.innerWidth;
     const H = window.innerHeight;
 
-    SHAPES_DEF.forEach((def, i) => {
-        // random starting position avoiding edges
-        let x, y, tries = 0;
-        do {
-            x = randBetween(20, W - def.w - 20);
-            y = randBetween(MARGIN, H - def.h - MARGIN);
-            tries++;
-        } while (tries < 50 && objects.some(o => rectsOverlap(x, y, def.w, def.h, o.x, o.y, o.w, o.h, 8)));
+    const agentDef = SHAPES_DEF.find(d => d.id === 'ENTITY_DENSITY');
+    const otherDefs = SHAPES_DEF.filter(d => d.id !== 'ENTITY_DENSITY');
 
-        // random angle
-        const angle = Math.random() * 2 * Math.PI;
-        const speed = SPEED * randBetween(0.6, 1.4);
+    // 1. Add the KFbeing agent (ENTITY_DENSITY)
+    if (agentDef) {
+        addObject(agentDef, W, H);
+    }
 
-        objects.push({
-            ...def,
-            x, y,
-            vx: Math.cos(angle) * speed,
-            vy: Math.sin(angle) * speed,
-            el: null,
-            // pulse scale driven by CSS animation, tracked separately for collision box
-            scale: 1,
-        });
+    // 2. Add 48 other decorative shapes
+    for (let i = 0; i < 48; i++) {
+        // Cycle through templates or pick randomly
+        const template = otherDefs[i % otherDefs.length];
+        addObject(template, W, H);
+    }
+}
+
+/**
+ * Helper to create a shape object with physics and random positioning
+ */
+function addObject(def, W, H) {
+    // Random starting position avoiding edges
+    let x, y, tries = 0;
+    do {
+        x = randBetween(20, W - def.w - 20);
+        y = randBetween(MARGIN, H - def.h - MARGIN);
+        tries++;
+    } while (tries < 50 && objects.some(o => rectsOverlap(x, y, def.w, def.h, o.x, o.y, o.w, o.h, 8)));
+
+    // Random angle and speed
+    const angle = Math.random() * 2 * Math.PI;
+    const speed = SPEED * randBetween(0.6, 1.4);
+
+    objects.push({
+        ...def,
+        x, y,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed,
+        el: null,
+        // scale tracked for collision box if pulsing
+        scale: 1,
     });
 }
 
