@@ -246,7 +246,7 @@ function resolveCollision(a, b) {
 // AUDIO PREVIEW
 // ─────────────────────────────────────────────────
 const previewAudio = new Audio('asset/sound/KFbeing_00.mp3');
-previewAudio.loop = false;
+previewAudio.loop = true;
 previewAudio.volume = 0.8;
 
 let audioUnlocked = false;
