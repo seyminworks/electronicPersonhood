@@ -250,16 +250,17 @@ previewAudio.volume = 0.8;
 
 let audioUnlocked = false;
 const unlockOverlay = document.getElementById('audio-unlock');
-
-unlockOverlay.addEventListener('click', () => {
-    // Unlock audio on first user interaction
-    previewAudio.play().then(() => {
-        previewAudio.pause();
-        previewAudio.currentTime = 0;
-    }).catch(() => { });
-    audioUnlocked = true;
-    unlockOverlay.style.display = 'none';
-});
+if (unlockOverlay) {
+    unlockOverlay.addEventListener('click', () => {
+        // Unlock audio on first user interaction
+        previewAudio.play().then(() => {
+            previewAudio.pause();
+            previewAudio.currentTime = 0;
+        }).catch(() => { });
+        audioUnlocked = true;
+        unlockOverlay.style.display = 'none';
+    });
+}
 
 // ─────────────────────────────────────────────────
 // HOVER / FREEZE
