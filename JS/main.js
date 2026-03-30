@@ -12,7 +12,7 @@ const SHAPES_DEF = [
     { id: 'NODE_11', w: 43, h: 43, color: '#00bfff', filled: true, label: 'name / 0000-00-00', labelPos: 'bottom-left' }, // Neon Deep Sky Blue
     { id: 'STREAM_END', w: 202, h: 24, color: '#0000ff', filled: false, label: 'name / 0000-00-00', labelPos: 'top-right' }, // Neon Blue
     { id: 'COORD_13', w: 24, h: 86, color: '#7f00ff', filled: true, label: 'name / 0000-00-00', labelPos: 'top-right' }, // Neon Violet
-    { id: 'ENTITY_DENSITY', w: 50, h: 202, color: '#00ffff', filled: true, label: 'KF being : 2026-03-31', labelPos: 'bottom-left' }, // Cyan!  ← AGENT
+    { id: 'ENTITY_DENSITY', ..., label: 'KF Being<br>2026/03/31', labelPos: 'bottom-left' }, // Cyan!  ← AGENT
     { id: 'BIT_RATE', w: 72, h: 72, color: '#ffea00', filled: true, label: 'name / 0000-00-00', labelPos: 'bottom-right' }, // Neon Goldenrod 
     { id: 'REF_VAL', w: 115, h: 43, color: '#9d00ff', filled: true, label: 'name / 0000-00-00', labelPos: 'bottom-left' }, // Neon Purple
     { id: 'LINKAGE_PRIME', w: 115, h: 24, color: '#ff0055', filled: true, label: 'name / 0000-00-00', labelPos: 'top-left' }, // Neon Crimson
@@ -140,24 +140,25 @@ function buildDOM() {
         // Label
         const span = document.createElement('span');
         span.className = 'label-text';
-        span.textContent = obj.label;
+       span.innerHTML = obj.label;
         span.style.position = 'absolute';
 
-        switch (obj.labelPos) {
-            case 'top-left':
-                span.style.top = '-18px'; span.style.left = '0'; break;
-            case 'top-right':
-                span.style.top = '-18px'; span.style.right = '0'; break;
-            case 'bottom-left':
-                span.style.bottom = '-18px'; span.style.left = '0'; break;
-            case 'bottom-right':
-                span.style.bottom = '-18px'; span.style.right = '0'; break;
-            case 'left-rotated':
-                span.style.top = '0'; span.style.left = '-8px';
-                span.style.transformOrigin = 'top right';
-                span.style.transform = 'rotate(-90deg) translateX(-100%)';
-                break;
-        }
+// 위치 조정 (switch 부분)
+switch (obj.labelPos) {
+    case 'top-left':
+        span.style.bottom = '100%'; span.style.marginBottom = '3px'; span.style.left = '0'; break;
+    case 'top-right':
+        span.style.bottom = '100%'; span.style.marginBottom = '3px'; span.style.right = '0'; break;
+    case 'bottom-left':
+        span.style.top = '100%'; span.style.marginTop = '3px'; span.style.left = '0'; break;
+    case 'bottom-right':
+        span.style.top = '100%'; span.style.marginTop = '3px'; span.style.right = '0'; break;
+    case 'left-rotated':
+        span.style.top = '0'; span.style.left = '-11px';
+        span.style.transformOrigin = 'top right';
+        span.style.transform = 'rotate(-90deg) translateX(-100%)';
+        break;
+}
         div.appendChild(span);
 
         // Pulse animation ONLY for the agent shape (KF being)
